@@ -1,0 +1,2219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f8f8f8">
+<meta property="og:type" content="website">
+<meta property="og:title" content="monu">
+<meta property="og:description" content="ordinary asian">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 20.5s-8-4.8-8-11A4.5 4.5 0 0 1 12 6.6a4.5 4.5 0 0 1 8 2.9c0 6.2-8 11-8 11z' fill='%23161616'/%3E%3C/svg%3E">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>monu</title>
+<meta name="description" content="ordinary asian">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@1,500;1,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: monu's banner bleeds across the top of a white paper page; a black silver-foil card
+   holding the profile art sits over the banner's fading edge, with sketched feathers drifting down.
+   Wide screens put the two link groups (socials, games) beside the card; phones stack them underneath. */
+:root {
+  color-scheme: light;
+
+  /* page: white paper, graphite and ink, matched to the banner's paper */
+  --paper: #f8f8f8;
+  --sheet: #ffffff;
+  --sheet-hover: #f3f3f3;
+  --glyph-bg: #efefef;
+  --ink: #161616;
+  --graphite: #5c5c5c;
+  --pencil: #9b9b9b;
+  --line: rgb(22 22 22 / .1);
+  --line-strong: rgb(22 22 22 / .24);
+  --vignette: rgb(0 0 0 / .05);
+  --lift: rgb(0 0 0 / .24);
+  --toast-bg: #161616;
+  --toast-ink: #f5f5f5;
+  --veil: rgb(248 248 248 / .62);
+
+  /* pencil scenery drawn down the page in the banner's style */
+  --sketch-line: #8d8d8d;
+  --sketch-soft: #c4c4c4;
+  --sketch-fill: #ececec;
+  --sketch-petal: #ffffff;
+
+  /* the card stays black with silver foil */
+  --c-ink: #f5f5f5;
+  --c-ink-2: #d4d4d4;
+  --c-muted: #a1a1a1;
+  --c-line: rgb(255 255 255 / .1);
+  --c-line-strong: rgb(255 255 255 / .22);
+  --card-ink: #0a0a0a;
+  --card-panel: #1a1a1a;
+  --bio-bg: rgb(0 0 0 / .8);
+  --pearl-hi: #ffffff;
+  --pearl: #d6d6d6;
+  --pearl-lo: #8a8a8a;
+  --silver-hi: #f7f7f7;
+  --silver-mid: #bcbcbc;
+  --silver-lo: #6f6f6f;
+  --pin: #4a4a4a;
+  --art-a: #3c3c3c;
+  --art-b: #262626;
+  --art-c: #4b4b4b;
+  --art-top: #171717;
+  --art-bottom: #050505;
+  --etch: rgb(255 255 255 / .035);
+  --ray: rgb(255 255 255 / .05);
+  --ring: rgb(255 255 255 / .045);
+
+  /* silver foil: greys only */
+  --sheen-1: #2e2e2e;
+  --sheen-2: #8f8f8f;
+  --sheen-3: #ececec;
+  --sheen-4: #5c5c5c;
+
+  --shadow: rgb(0 0 0 / .8);
+  --glint: rgb(255 255 255 / .55);
+  --glint-soft: rgb(255 255 255 / .12);
+  --glint-faint: rgb(255 255 255 / .06);
+  --edge-dark: rgb(0 0 0 / .5);
+
+  --f-display: "Cormorant", "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --f-body: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-mono: "Martian Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { height: 100%; background: var(--paper); }
+
+body {
+  position: relative;
+  min-height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 15px/1.5 var(--f-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 44px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- paper, banner, feathers ---------- */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 40%, transparent 55%, var(--vignette) 100%),
+    var(--paper);
+}
+.backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--noise, none);
+  mix-blend-mode: multiply;
+  opacity: .55;
+}
+
+.banner {
+  position: relative;
+  z-index: 0;
+  flex: none;
+  height: clamp(130px, 37.5vw, 290px);
+  margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+  overflow: hidden;
+}
+.banner img {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 56%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 56%, transparent 100%);
+}
+
+canvas.scene {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+}
+
+canvas.sky,
+canvas.fx {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+canvas.sky { z-index: 0; }
+canvas.fx { z-index: 20; }
+
+.stage {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 980px;
+  margin: -30px auto 0;
+}
+@media (min-width: 860px) {
+  .stage {
+    grid-template-columns: auto minmax(0, 400px);
+    justify-content: center;
+    align-items: center;
+    column-gap: clamp(56px, 7vw, 104px);
+    margin-top: -64px;
+  }
+}
+
+/* ---------- card ---------- */
+
+.card-zone {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.card-wrap {
+  --mx: 32%;
+  --my: 26%;
+  --px: -.18;
+  --py: -.24;
+  --foil-o: .32;
+  --art-o: .4;
+  position: relative;
+  width: min(100%, 320px);
+  perspective: 1100px;
+}
+@media (min-width: 860px) {
+  .card-wrap { width: 340px; }
+}
+.card-wrap::before {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -4%;
+  height: 10%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, var(--lift), transparent);
+  filter: blur(8px);
+  transform: translateX(calc(var(--px) * -24px));
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 63 / 88;
+  font-size: 12.8px;
+  border-radius: 1.15em;
+  transform: rotateX(6deg) rotateY(-8deg);
+  transform-style: preserve-3d;
+  will-change: transform;
+  cursor: pointer;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.card-flip {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  transform-style: preserve-3d;
+  transition: transform .95s cubic-bezier(.2, .75, .15, 1);
+}
+.card.is-flipped .card-flip { transform: rotateY(180deg); }
+
+.face {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  isolation: isolate;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 2em 3.4em -1.4em var(--lift), 0 0 0 1px var(--edge-dark);
+}
+.face.front { transform: rotateY(0deg); }
+.face.back { transform: rotateY(180deg); }
+
+.metal {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg,
+    var(--silver-lo) 0%, var(--silver-hi) 17%, var(--silver-mid) 33%,
+    var(--silver-hi) 50%, var(--silver-lo) 66%, var(--silver-mid) 83%, var(--silver-hi) 100%);
+}
+.metal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(90deg, var(--glint-faint) 0 1px, transparent 1px 3px);
+}
+
+.panel-bg {
+  position: absolute;
+  inset: .8em;
+  z-index: 1;
+  border-radius: .6em;
+  background:
+    repeating-linear-gradient(135deg, var(--etch) 0 1px, transparent 1px 8px),
+    radial-gradient(120% 80% at 50% 0%, var(--card-panel) 0%, var(--card-ink) 75%);
+  box-shadow: 0 0 0 1px var(--pin), inset 0 0 0 1px var(--edge-dark);
+}
+
+/* the foil: moving silver bands plus glitter, dodged into the metal and the panel */
+.foil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+  opacity: var(--foil-o);
+  background-image:
+    var(--glitter, none),
+    repeating-linear-gradient(120deg,
+      var(--sheen-1) 0%, var(--sheen-2) 5%, var(--sheen-3) 8%, var(--sheen-2) 11%,
+      var(--sheen-1) 16%, var(--sheen-4) 20%, var(--sheen-1) 25%);
+  background-size: 180px 180px, 400% 400%;
+  background-position:
+    calc(var(--px) * -48px) calc(var(--py) * -48px),
+    var(--mx) var(--my);
+}
+
+.glare {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  background: radial-gradient(farthest-corner circle at var(--mx) var(--my),
+    var(--glint) 0%, var(--glint-soft) 28%, var(--edge-dark) 100%);
+  opacity: .75;
+}
+
+.content {
+  position: absolute;
+  inset: .8em;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: .6em;
+  padding: .85em .85em .8em;
+}
+
+.nameplate {
+  display: flex;
+  align-items: flex-start;
+  gap: .6em;
+}
+.who { flex: 1; min-width: 0; }
+.name {
+  margin: 0;
+  padding: .02em .12em .04em 0;
+  font: italic 600 2.3em/1.05 var(--f-display);
+  letter-spacing: .005em;
+  color: var(--c-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 .05em 0 var(--edge-dark);
+}
+.handle {
+  margin: .1em 0 0;
+  font: 500 .76em/1.3 var(--f-mono);
+  letter-spacing: .02em;
+  color: var(--c-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rarity {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.1em;
+  height: 2.1em;
+  margin-top: .15em;
+  border-radius: 50%;
+  color: var(--card-ink);
+  background: radial-gradient(circle at 35% 30%, var(--pearl-hi), var(--pearl) 45%, var(--pearl-lo));
+  box-shadow: 0 0 0 1px var(--edge-dark), 0 0 1.2em var(--glint-soft);
+}
+.rarity svg { width: 1.1em; height: 1.1em; }
+
+.art {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: .5em;
+  background:
+    repeating-linear-gradient(135deg, var(--etch) 0 1px, transparent 1px 7px),
+    radial-gradient(65% 55% at 28% 22%, var(--art-a) 0%, transparent 70%),
+    radial-gradient(60% 65% at 82% 84%, var(--art-b) 0%, transparent 72%),
+    radial-gradient(45% 40% at 78% 18%, var(--art-c) 0%, transparent 70%),
+    linear-gradient(160deg, var(--art-top), var(--art-bottom));
+  box-shadow: 0 0 0 1px var(--edge-dark), inset 0 0 0 1px var(--glint-soft), inset 0 0 2.2em var(--edge-dark);
+}
+.art.has-avatar {
+  background: var(--sheet);
+  box-shadow: 0 0 0 1px var(--edge-dark);
+}
+.monogram {
+  padding-right: .08em;
+  font: italic 600 10.5em/1 var(--f-display);
+  color: transparent;
+  background: linear-gradient(165deg, var(--silver-hi) 8%, var(--silver-mid) 40%, var(--silver-lo) 62%, var(--silver-hi) 86%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 .04em .06em var(--shadow));
+  transform: translate(calc(var(--px) * -.5em), calc(var(--py) * -.5em));
+}
+.avatar {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 100%;
+}
+.art-holo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+  opacity: var(--art-o);
+  background-image:
+    var(--glitter, none),
+    linear-gradient(115deg,
+      var(--sheen-1) 0%, var(--sheen-2) 14%, var(--sheen-3) 22%, var(--sheen-2) 30%, var(--sheen-1) 44%,
+      var(--sheen-4) 58%, var(--sheen-3) 70%, var(--sheen-1) 84%, var(--sheen-2) 100%);
+  background-size: 180px 180px, 320% 320%;
+  background-position:
+    calc(var(--px) * 64px) calc(var(--py) * 64px),
+    var(--mx) var(--my);
+}
+.art.has-avatar .art-holo {
+  mix-blend-mode: soft-light;
+  opacity: calc(var(--art-o) * .75);
+}
+
+.typeline {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .6em;
+  padding: .45em .1em .4em;
+  border-top: 1px solid var(--c-line-strong);
+  border-bottom: 1px solid var(--c-line);
+  font: 600 .78em/1.2 var(--f-body);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--c-ink);
+}
+.typeline span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.typeline .num {
+  flex: none;
+  font: 500 .9em/1 var(--f-mono);
+  letter-spacing: .04em;
+  color: var(--c-ink-2);
+}
+
+.bio {
+  margin: 0;
+  display: grid;
+  max-height: 4.35em;
+  overflow: hidden;
+  padding: .7em .8em;
+  border-radius: .45em;
+  background: var(--bio-bg);
+  box-shadow: inset 0 0 0 1px var(--c-line);
+  font: 400 .96em/1.45 var(--f-body);
+  color: var(--c-ink);
+  user-select: text;
+  -webkit-user-select: text;
+}
+/* a hidden copy of the longest line sets the box height, so typing never shifts the card */
+.bio > span { grid-area: 1 / 1; min-width: 0; }
+.bio-sizer { visibility: hidden; }
+.caret {
+  display: inline-block;
+  width: .45em;
+  height: 1.05em;
+  margin-left: .12em;
+  vertical-align: -.17em;
+  background: var(--c-ink);
+  animation: blink 1.05s steps(2, start) infinite;
+}
+@keyframes blink { to { visibility: hidden; } }
+
+/* back of the card */
+.back-art {
+  position: absolute;
+  inset: .8em;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1.6em;
+  overflow: hidden;
+  border-radius: .6em;
+  background:
+    repeating-radial-gradient(circle at 50% 44%, transparent 0 .95em, var(--ring) .95em 1.05em),
+    repeating-conic-gradient(from 0deg at 50% 44%, var(--ray) 0deg 5deg, transparent 5deg 10deg),
+    radial-gradient(circle at 50% 44%, var(--card-panel), var(--card-ink) 72%);
+  box-shadow: 0 0 0 1px var(--pin), inset 0 0 0 1px var(--edge-dark);
+}
+.medallion {
+  display: grid;
+  place-items: center;
+  width: 48%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    var(--emblem, none) center / 84% no-repeat,
+    radial-gradient(circle at 40% 32%, var(--card-panel), var(--card-ink) 80%);
+  box-shadow:
+    0 0 0 .35em var(--silver-mid),
+    0 0 0 .5em var(--card-ink),
+    0 0 0 .62em var(--pin),
+    0 1em 2.2em var(--shadow);
+}
+.medallion .monogram { font-size: 6.4em; transform: none; }
+.back-line {
+  margin: 0;
+  max-width: 90%;
+  font: 500 .72em/1 var(--f-mono);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.face.back .foil { opacity: calc(var(--foil-o) * .9); }
+
+/* ---------- buttons under the card ---------- */
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--sheet);
+  color: var(--graphite);
+  font: 500 10.5px/1 var(--f-mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color .2s, border-color .2s, background-color .2s;
+}
+.pill:hover { color: var(--ink); border-color: var(--ink); }
+.pill svg { width: 14px; height: 14px; flex: none; }
+
+.now {
+  margin: -4px 0 0;
+  max-width: 100%;
+  font: 500 10px/1.4 var(--f-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--graphite);
+}
+
+/* ---------- links ---------- */
+
+.links {
+  display: grid;
+  gap: 24px;
+  width: 100%;
+  max-width: 440px;
+}
+.group {
+  display: grid;
+  gap: 12px;
+}
+@media (min-width: 860px) {
+  /* a little tighter beside the card, so the list starts below the banner art */
+  .links { align-self: end; gap: 20px; }
+  .group { gap: 10px; }
+  .link-list { gap: 6px; }
+  .link { padding-block: 8px; }
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font: 500 11px/1 var(--f-mono);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.eyebrow::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.link-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px 10px 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--sheet);
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color .2s, border-color .2s, transform .2s;
+}
+.link:hover { background: var(--sheet-hover); border-color: var(--line-strong); transform: translateY(-1px); }
+.link:active { transform: translateY(0); }
+.glyph {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--glyph-bg);
+  color: var(--graphite);
+  transition: color .2s;
+}
+.link:hover .glyph { color: var(--ink); }
+.glyph svg { width: 18px; height: 18px; }
+.link-text { display: grid; min-width: 0; }
+.link-name,
+.link-handle { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.link-name { font: 600 14px/1.3 var(--f-body); }
+.link-handle { font: 400 10.5px/1.4 var(--f-mono); color: var(--graphite); }
+.link-go { display: grid; color: var(--pencil); transition: color .2s; }
+.link-go svg { width: 16px; height: 16px; }
+.link:hover .link-go { color: var(--ink); }
+
+/* a game whose ID hasn't been added yet */
+.link:disabled { border-style: dashed; cursor: default; }
+.link:disabled .link-name { color: var(--graphite); }
+.link:disabled .link-handle { color: var(--pencil); }
+.link:disabled:hover { background: var(--sheet); border-color: var(--line); transform: none; }
+.link:disabled:hover .glyph { color: var(--graphite); }
+
+
+.pill:focus-visible,
+.link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* ---------- toast ---------- */
+
+.toast {
+  position: fixed;
+  z-index: 30;
+  left: 50%;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  max-width: calc(100% - 32px);
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: var(--toast-bg);
+  color: var(--toast-ink);
+  font: 500 13px/1.35 var(--f-body);
+  text-align: center;
+  box-shadow: 0 12px 32px var(--lift);
+  transform: translateX(-50%);
+  animation: toast-in .28s cubic-bezier(.2, .8, .2, 1);
+}
+.toast b {
+  font: 500 12px/1.35 var(--f-mono);
+  color: var(--toast-ink);
+  user-select: all;
+  -webkit-user-select: all;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+}
+
+/* ---------- tap to enter (browsers only allow sound after a tap) ---------- */
+
+.enter {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 22px;
+  width: 100%;
+  margin: 0;
+  border: 0;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  background: var(--veil);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+  transition: opacity .7s ease, visibility 0s linear .7s;
+  -webkit-tap-highlight-color: transparent;
+}
+.enter.is-gone { opacity: 0; visibility: hidden; pointer-events: none; }
+.enter:focus-visible { outline: none; }
+.enter:focus-visible .enter-hint { outline: 2px solid var(--ink); outline-offset: 4px; }
+.enter-name {
+  position: relative;
+  padding-right: .06em;
+  font: italic 600 clamp(56px, 16vw, 96px)/1 var(--f-display);
+  letter-spacing: .01em;
+}
+.enter-name::before {
+  /* a halo, like the one drawn over the name in the banner */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -.26em;
+  width: 1.5em;
+  height: .3em;
+  border: 2px solid var(--graphite);
+  border-radius: 50%;
+  opacity: .5;
+  transform: translateX(-50%) rotate(-5deg);
+  animation: halo 3.2s ease-in-out infinite;
+}
+@keyframes halo {
+  50% { transform: translateX(-50%) translateY(-5px) rotate(-3deg); }
+}
+.enter-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 18px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--sheet);
+  font: 500 11px/1 var(--f-mono);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--graphite);
+}
+.enter-hint svg,
+.pill .note { width: 14px; height: 14px; flex: none; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-flip { transition: none; }
+  .caret { animation: none; }
+  .link, .pill, .glyph { transition: none; }
+  .toast { animation: none; }
+  .enter { transition: opacity .2s ease, visibility 0s linear .2s; }
+  .enter-name::before { animation: none; }
+}
+</style>
+</head>
+<body>
+<button class="enter" id="enter" type="button" aria-label="Enter and start the music">
+  <span class="enter-name" id="enterName">monu</span>
+  <span class="enter-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5.5l10-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>
+    <span id="enterHint">Tap to enter</span>
+  </span>
+</button>
+<div class="backdrop" aria-hidden="true"></div>
+<canvas class="scene" id="scene" aria-hidden="true"></canvas>
+<header class="banner" id="banner">
+  <img src="monu-banner.webp" alt="" width="2048" height="768" decoding="async">
+</header>
+<canvas class="sky" id="sky" aria-hidden="true"></canvas>
+
+<main class="stage">
+  <section class="card-zone" aria-label="Profile card">
+    <div class="card-wrap" id="cardWrap">
+      <div class="card" id="card">
+        <div class="card-flip">
+
+          <div class="face front">
+            <div class="metal"></div>
+            <div class="panel-bg"></div>
+            <div class="foil"></div>
+            <div class="content">
+              <div class="nameplate">
+                <div class="who">
+                  <h1 class="name" id="name">monu</h1>
+                  <p class="handle" id="handle" hidden></p>
+                </div>
+                <span class="rarity" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19.5s-7.25-4.4-7.25-10A4.1 4.1 0 0 1 12 6.9a4.1 4.1 0 0 1 7.25 2.6c0 5.6-7.25 10-7.25 10z"/></svg>
+                </span>
+              </div>
+              <div class="art" id="art">
+                <span class="monogram" id="monogram" aria-hidden="true">M</span>
+                <img class="avatar" id="avatar" alt="" hidden>
+                <div class="art-holo"></div>
+              </div>
+              <div class="typeline">
+                <span id="typeLine">Angel Edition</span>
+                <span class="num" id="edition">1 of 1</span>
+              </div>
+              <p class="bio" aria-hidden="true"><span class="bio-sizer" id="bioSizer">ordinary asian<span class="caret"></span></span><span class="bio-live"><span id="bioText">ordinary asian</span><span class="caret"></span></span></p>
+            </div>
+            <div class="glare"></div>
+          </div>
+
+          <div class="face back" aria-hidden="true">
+            <div class="metal"></div>
+            <div class="back-art">
+              <div class="medallion" id="medallion"><span class="monogram" id="backMono">M</span></div>
+              <p class="back-line" id="backName">monu</p>
+            </div>
+            <div class="foil"></div>
+            <div class="glare"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="card-actions">
+      <button class="pill" id="flipBtn" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4.5v4.25h-4.25"/></svg>
+        Flip card
+      </button>
+      <button class="pill" id="songBtn" type="button" aria-pressed="false" hidden>
+        <svg class="note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5.5l10-2V16"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg>
+        <span>Play music</span>
+      </button>
+    </div>
+    <p class="now" id="nowPlaying" hidden></p>
+    <p class="sr-only" id="bioAll"></p>
+  </section>
+
+  <section class="links" id="links" aria-label="Links"></section>
+</main>
+
+<canvas class="fx" id="fx" aria-hidden="true"></canvas>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+  /* ===== Everything on the page comes from here ===== */
+  const PROFILE = {
+    name: "monu",
+    handle: "",                 // e.g. "@monu"; leave empty to hide the line under the name
+    typeLine: "Angel Edition",
+    edition: "1 of 1",
+    bio: ["ordinary asian"],    // one or more lines; the card types them out in turn
+    avatar: "monu-pfp.jpg",     // published next to the page; leave empty for the monogram art
+    song: "music.mp3",          // audio file published next to the page; leave empty for the built-in music box tune
+    songTitle: "Peaceful Wishes",
+    songArtist: "HOYO-MiX",
+    // group "social" shows under Find me, "games" under Play with me.
+    // A link with `copy` copies that text when tapped; an empty `copy` shows as "not added yet".
+    links: [
+      { group: "social", icon: "chat",   name: "Discord",   handle: "ahshiball",           copy: "ahshiball",
+        copyLabel: "Discord username", tip: "Paste it into Add Friend on Discord." },
+      { group: "social", icon: "clip",   name: "TikTok",    handle: "@matchalabubuonegai", url: "https://www.tiktok.com/@matchalabubuonegai" },
+      { group: "social", icon: "music",  name: "Spotify",   handle: "dontput",             url: "https://open.spotify.com/user/317wz6q6bvji7fa4uiss2edle7s4" },
+      { group: "social", icon: "camera", name: "Instagram", handle: "@dontputpasonrandom", url: "https://www.instagram.com/dontputpasonrandom/" },
+      { group: "games",  icon: "pad",    name: "Roblox",    handle: "@dontputpasonrandom", url: "https://www.roblox.com/users/1487802075/profile" },
+      { group: "games",  icon: "gem",    name: "Genshin Impact",    handle: "UID 641454087 · America", copy: "641454087",
+        copyLabel: "Genshin UID", tip: "Paste it into Add Friend in Genshin." },
+      { group: "games",  icon: "swords", name: "League of Legends", handle: "니가destroy#shein", copy: "니가destroy#shein",
+        copyLabel: "Riot ID", tip: "Paste it into Add Friend in League." },
+      { group: "games",  icon: "scope",  name: "Valorant",          handle: "highpacketloss#456", copy: "highpacketloss#456",
+        copyLabel: "Riot ID", tip: "Paste it into Add Friend in Valorant." }
+    ]
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const root = document.documentElement;
+  const wrap = $("cardWrap");
+  const card = $("card");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const token = (name) => getComputedStyle(root).getPropertyValue(name).trim();
+
+  /* ---------- content ---------- */
+  const name = PROFILE.name.trim() || "your name";
+  $("name").textContent = name;
+  $("backName").textContent = name;
+  const handleEl = $("handle");
+  handleEl.textContent = PROFILE.handle;
+  handleEl.hidden = !PROFILE.handle;
+  $("typeLine").textContent = PROFILE.typeLine;
+  $("edition").textContent = PROFILE.edition;
+  const initial = (Array.from(name.replace(/^[^\p{L}\p{N}]+/u, ""))[0] || "*").toUpperCase();
+  $("monogram").textContent = initial;
+  $("backMono").textContent = initial;
+  if (PROFILE.avatar) {
+    const img = $("avatar");
+    img.src = PROFILE.avatar;
+    img.alt = name;
+    img.hidden = false;
+    $("monogram").hidden = true;
+    $("art").classList.add("has-avatar");
+  }
+  const bioLines = PROFILE.bio.map((s) => s.trim()).filter(Boolean);
+  $("bioText").textContent = bioLines[0] || "";
+  $("bioAll").textContent = bioLines.join(". ");
+  $("bioSizer").firstChild.textContent = bioLines.reduce((a, b) => (b.length > a.length ? b : a), "");
+
+  /* ---------- links ---------- */
+  const ICON = {
+    chat: '<path d="M5 5.5h14A1.5 1.5 0 0 1 20.5 7v8.5A1.5 1.5 0 0 1 19 17h-8.2L7 20v-3H5a1.5 1.5 0 0 1-1.5-1.5V7A1.5 1.5 0 0 1 5 5.5z"/><path d="M8.5 11.25h.01M12 11.25h.01M15.5 11.25h.01" stroke-width="2.4"/>',
+    pad: '<path d="M7.5 8h9a4.5 4.5 0 0 1 4.5 4.5v.75a3.25 3.25 0 0 1-5.9 1.9L14.2 14H9.8l-.9 1.15A3.25 3.25 0 0 1 3 13.25v-.75A4.5 4.5 0 0 1 7.5 8z"/><path d="M8 10.25v3.5M6.25 12h3.5"/><path d="M15.25 11h.01M17.25 13h.01" stroke-width="2.4"/>',
+    play: '<circle cx="12" cy="12" r="8.75"/><path d="M10.25 8.75v6.5l5.25-3.25z" fill="currentColor" stroke="none"/>',
+    clip: '<rect x="6.75" y="3.25" width="10.5" height="17.5" rx="2.25"/><path d="M10.6 9.4v5.2l4.1-2.6z" fill="currentColor" stroke="none"/>',
+    music: '<path d="M4.5 14v4.5M8.25 9v9.5M12 5v13.5M15.75 10.5v8M19.5 13v5.5"/>',
+    camera: '<path d="M4 8.75A1.75 1.75 0 0 1 5.75 7h2.1l1.5-2.25h5.3L16.15 7h2.1A1.75 1.75 0 0 1 20 8.75v8.5A1.75 1.75 0 0 1 18.25 19H5.75A1.75 1.75 0 0 1 4 17.25z"/><circle cx="12" cy="12.75" r="3.4"/>',
+    gem: '<path d="M7 4.5h10l3.5 5L12 20.5 3.5 9.5z"/><path d="M3.5 9.5h17M9.5 4.5 8 9.5l4 11 4-11-1.5-5"/>',
+    swords: '<path d="M14 17 3.5 6.5v-3h3L17 14M12.5 18.5l6-6M15.5 15.5l4 4M18.5 20.5l2-2M14.5 6.5l3-3h3v3l-3 3M5.5 12.5l6 6M8.5 15.5l-4 4M3.5 18.5l2 2"/>',
+    scope: '<circle cx="12" cy="12" r="7.25"/><path d="M12 2.75v5M12 16.25v5M2.75 12h5M16.25 12h5"/><path d="M12 12h.01" stroke-width="2.6"/>',
+    out: '<path d="M8 16 16 8M9.5 8H16v6.5"/>',
+    copy: '<rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6A1.5 1.5 0 0 0 14 4.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/>'
+  };
+  const svg = (d) =>
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + d + "</svg>";
+
+  const linksEl = $("links");
+  const GROUPS = [["social", "Find me"], ["games", "Play with me"]];
+  for (const [key, title] of GROUPS) {
+    const items = PROFILE.links.filter((l) => (l.group || "social") === key);
+    if (!items.length) continue;
+    const group = document.createElement("div");
+    group.className = "group";
+    const heading = document.createElement("h2");
+    heading.className = "eyebrow";
+    heading.textContent = title;
+    const list = document.createElement("ul");
+    list.className = "link-list";
+    for (const l of items) {
+      const isCopy = "copy" in l;
+      const ready = Boolean(isCopy ? l.copy : l.url);
+      const li = document.createElement("li");
+      const el = document.createElement(isCopy || !ready ? "button" : "a");
+      el.className = "link";
+      if (!ready) {
+        el.type = "button";
+        el.disabled = true;
+      } else if (isCopy) {
+        el.type = "button";
+        el.dataset.copy = l.copy;
+        el.dataset.label = l.copyLabel || l.name;
+        el.dataset.tip = l.tip || "";
+        el.setAttribute("aria-label", "Copy " + (l.copyLabel || l.name) + " " + l.copy);
+      } else {
+        el.href = l.url;
+        el.target = "_blank";
+        el.rel = "noopener noreferrer";
+      }
+      el.innerHTML =
+        '<span class="glyph">' + svg(ICON[l.icon] || ICON.out) + "</span>" +
+        '<span class="link-text"><span class="link-name"></span><span class="link-handle"></span></span>' +
+        (ready ? '<span class="link-go">' + svg(isCopy ? ICON.copy : ICON.out) + "</span>" : "");
+      el.querySelector(".link-name").textContent = l.name;
+      el.querySelector(".link-handle").textContent = ready ? l.handle : "not added yet";
+      li.append(el);
+      list.append(li);
+    }
+    group.append(heading, list);
+    linksEl.append(group);
+  }
+
+  /* ---------- toast ---------- */
+  const toast = $("toast");
+  let toastTimer = 0;
+  function showToast(parts, ms = 3600) {
+    toast.replaceChildren(...parts.map((p) => {
+      if (typeof p === "string") return document.createTextNode(p);
+      const b = document.createElement("b");
+      b.textContent = p.code;
+      return b;
+    }));
+    toast.hidden = true;
+    void toast.offsetWidth;
+    toast.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { toast.hidden = true; }, ms);
+  }
+
+  linksEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-copy]");
+    if (!btn) return;
+    const text = btn.dataset.copy;
+    let copied;
+    try {
+      copied = navigator.clipboard.writeText(text);
+    } catch (err) {
+      copied = Promise.reject(err);
+    }
+    copied.then(
+      () => showToast(["Copied ", { code: text }, (btn.dataset.tip ? ". " + btn.dataset.tip : ".")]),
+      () => {
+        showToast([btn.dataset.label + ": ", { code: text }], 7000);
+        const b = toast.querySelector("b");
+        const range = document.createRange();
+        range.selectNodeContents(b);
+        const sel = getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    );
+  });
+
+  /* ---------- card sizing: everything inside scales with the card width ---------- */
+  const nameEl = $("name");
+  function fitName() {
+    let size = 2.3;
+    nameEl.style.fontSize = size + "em";
+    for (let i = 0; i < 40 && nameEl.scrollWidth > nameEl.clientWidth && size > 1.2; i++) {
+      size -= 0.05;
+      nameEl.style.fontSize = size.toFixed(2) + "em";
+    }
+  }
+  function sizeCard() {
+    const w = card.clientWidth;
+    if (w) card.style.fontSize = (w / 25).toFixed(3) + "px";
+    fitName();
+  }
+  sizeCard();
+  if ("ResizeObserver" in window) new ResizeObserver(sizeCard).observe(card);
+  if (document.fonts) document.fonts.ready.then(fitName);
+
+  /* ---------- textures ---------- */
+  function glitterTile(size, count) {
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    const g = c.getContext("2d");
+    g.fillStyle = token("--silver-hi");
+    for (let i = 0; i < count; i++) {
+      g.globalAlpha = Math.pow(Math.random(), 2.2);
+      g.beginPath();
+      g.arc(Math.random() * size, Math.random() * size, Math.random() < 0.88 ? 0.55 : 1.3, 0, 6.283);
+      g.fill();
+    }
+    return c.toDataURL("image/png");
+  }
+  function noiseTile(size) {
+    const c = document.createElement("canvas");
+    c.width = c.height = size;
+    const g = c.getContext("2d");
+    const img = g.createImageData(size, size);
+    for (let i = 0; i < img.data.length; i += 4) {
+      const v = 120 + ((Math.random() * 135) | 0);
+      img.data[i] = img.data[i + 1] = img.data[i + 2] = v;
+      img.data[i + 3] = 26;
+    }
+    g.putImageData(img, 0, 0);
+    return c.toDataURL("image/png");
+  }
+  try {
+    wrap.style.setProperty("--glitter", "url(" + glitterTile(180, 320) + ")");
+    root.style.setProperty("--noise", "url(" + noiseTile(140) + ")");
+  } catch (e) { /* the page works without textures */ }
+
+  /* ---------- feather drawings, sketched like the banner (made once, then reused) ---------- */
+  const SPRITE_LEN = 200;
+  function featherSprite(seed) {
+    let s = seed >>> 0;
+    const rnd = () => {
+      s = (s + 0x6d2b79f5) >>> 0;
+      let t = s;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    const L = SPRITE_LEN;
+    const c = document.createElement("canvas");
+    c.width = Math.round(L * 0.66);
+    c.height = Math.round(L * 1.08);
+    const g = c.getContext("2d");
+    g.translate(c.width / 2, c.height / 2);
+
+    const bend = (rnd() - 0.5) * 0.14 * L;          // how much the shaft curves
+    const t0 = 0.2;                                   // where the vane starts along the shaft
+    const maxL = (0.19 + rnd() * 0.04) * L;           // wider side
+    const maxR = (0.13 + rnd() * 0.03) * L;           // narrower side
+    const shaft = (t) => [2 * (1 - t) * t * bend, 0.5 * L - t * L];   // t: 0 = quill end, 1 = tip
+    const width = (t) => {
+      if (t <= t0) return 0;
+      const u = (t - t0) / (1 - t0);
+      return (Math.pow(u, 0.5) * Math.pow(1 - u, 0.85)) / 0.41;
+    };
+
+    const vane = new Path2D();
+    const N = 48;
+    const [bx, by] = shaft(t0);
+    vane.moveTo(bx, by);
+    for (let i = 0; i <= N; i++) {
+      const t = t0 + (1 - t0) * (i / N);
+      const [x, y] = shaft(t);
+      const w = width(t) * maxL;
+      vane.lineTo(x - w, y - w * 0.35);
+    }
+    for (let i = N; i >= 0; i--) {
+      const t = t0 + (1 - t0) * (i / N);
+      const [x, y] = shaft(t);
+      const w = width(t) * maxR;
+      vane.lineTo(x + w, y - w * 0.35);
+    }
+    vane.closePath();
+
+    const fill = g.createLinearGradient(-maxL, 0, maxR, 0);
+    fill.addColorStop(0, "rgba(246,246,246,0.96)");
+    fill.addColorStop(0.55, "rgba(255,255,255,1)");
+    fill.addColorStop(1, "rgba(238,238,238,0.96)");
+    g.fillStyle = fill;
+    g.fill(vane);
+
+    g.save();
+    g.clip(vane);
+    // barbs, drawn like pencil hatching
+    g.lineWidth = 1.1;
+    for (let i = 0; i <= 70; i++) {
+      const t = t0 + (1 - t0) * (i / 70);
+      const [x, y] = shaft(t);
+      const w = width(t);
+      g.strokeStyle = "rgba(40,40,40," + (0.07 + rnd() * 0.09).toFixed(3) + ")";
+      g.beginPath();
+      g.moveTo(x, y);
+      g.quadraticCurveTo(x - w * maxL * 0.5, y - w * maxL * 0.1, x - w * maxL * 1.05, y - w * maxL * 0.5);
+      g.moveTo(x, y);
+      g.quadraticCurveTo(x + w * maxR * 0.5, y - w * maxR * 0.1, x + w * maxR * 1.05, y - w * maxR * 0.5);
+      g.stroke();
+    }
+    // soft shading toward the edges
+    g.globalCompositeOperation = "source-atop";
+    const shade = g.createLinearGradient(-maxL, 0, maxR, 0);
+    shade.addColorStop(0, "rgba(0,0,0,0.08)");
+    shade.addColorStop(0.5, "rgba(0,0,0,0)");
+    shade.addColorStop(1, "rgba(0,0,0,0.12)");
+    g.fillStyle = shade;
+    g.fillRect(-c.width / 2, -c.height / 2, c.width, c.height);
+    g.restore();
+
+    // ink outline
+    g.lineJoin = "round";
+    g.lineWidth = 3.4;
+    g.strokeStyle = "rgba(58,58,58,0.62)";
+    g.stroke(vane);
+
+    // a few splits in the vane, like a real feather
+    g.globalCompositeOperation = "destination-out";
+    g.strokeStyle = "#000";
+    const splits = 2 + Math.floor(rnd() * 3);
+    for (let k = 0; k < splits; k++) {
+      const side = rnd() < 0.55 ? -1 : 1;
+      const t = t0 + 0.12 + rnd() * 0.65;
+      const [x, y] = shaft(t);
+      const w = width(t) * (side < 0 ? maxL : maxR);
+      const depth = 0.35 + rnd() * 0.4;
+      g.lineWidth = 2 + rnd() * 2.4;
+      g.beginPath();
+      g.moveTo(x + side * w * (1 - depth), y - w * 0.18 * (1 - depth));
+      g.lineTo(x + side * w * 1.25, y - w * 0.58);
+      g.stroke();
+    }
+    g.globalCompositeOperation = "source-over";
+
+    // fluffy down near the quill
+    g.lineWidth = 1.4;
+    for (let i = 0; i < 22; i++) {
+      const t = 0.1 + rnd() * 0.16;
+      const [x, y] = shaft(t);
+      const side = i % 2 ? 1 : -1;
+      const reach = (0.07 + rnd() * 0.12) * L;
+      g.strokeStyle = "rgba(70,70,70," + (0.22 + rnd() * 0.3).toFixed(3) + ")";
+      g.beginPath();
+      g.moveTo(x, y);
+      g.bezierCurveTo(
+        x + side * reach * 0.4, y - reach * 0.4,
+        x + side * reach * 0.8, y + reach * (rnd() * 0.4 - 0.1),
+        x + side * reach, y - reach * (0.1 + rnd() * 0.5)
+      );
+      g.stroke();
+    }
+
+    // shaft
+    g.lineCap = "round";
+    const steps = 30;
+    for (let i = 0; i < steps; i++) {
+      const ta = (i / steps) * 0.97;
+      const tb = ((i + 1) / steps) * 0.97;
+      const [xa, ya] = shaft(ta);
+      const [xb, yb] = shaft(tb);
+      g.lineWidth = 3 * (1 - ta) + 1;
+      g.strokeStyle = ta < t0 ? "rgba(110,110,110,0.6)" : "rgba(80,80,80,0.85)";
+      g.beginPath();
+      g.moveTo(xa, ya);
+      g.lineTo(xb, yb);
+      g.stroke();
+    }
+    return c;
+  }
+
+  let SPRITES = [];
+  try {
+    SPRITES = [11, 23, 37, 59, 71].map(featherSprite);
+    // feather emblem for the back of the card
+    const c = document.createElement("canvas");
+    c.width = c.height = 240;
+    const g = c.getContext("2d");
+    g.translate(120, 120);
+    g.rotate(-0.62);
+    const sp = SPRITES[1];
+    g.drawImage(sp, -sp.width / 2, -sp.height / 2);
+    $("medallion").style.setProperty("--emblem", "url(" + c.toDataURL("image/png") + ")");
+    $("backMono").hidden = true;
+  } catch (e) { /* falls back to the monogram on the back */ }
+
+  /* ---------- tilt + foil ---------- */
+  const state = { nx: 0.32, ny: 0.28, power: 0.7 };
+  const goal = { nx: 0.32, ny: 0.28, power: 0.7 };
+  let lastInput = -Infinity;
+  let pressed = false;
+  let downX = 0, downY = 0, dragged = false;
+
+  function apply() {
+    const dx = state.nx - 0.5;
+    const dy = state.ny - 0.5;
+    const rx = clamp(-dy * 26, -13, 13);
+    const ry = clamp(dx * 30, -15, 15);
+    card.style.transform = "rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg)";
+    const s = wrap.style;
+    s.setProperty("--mx", (state.nx * 100).toFixed(2) + "%");
+    s.setProperty("--my", (state.ny * 100).toFixed(2) + "%");
+    s.setProperty("--px", dx.toFixed(3));
+    s.setProperty("--py", dy.toFixed(3));
+    const lean = Math.min(1, Math.hypot(dx, dy) * 2);
+    s.setProperty("--foil-o", (0.16 + lean * 0.34 * state.power).toFixed(3));
+    s.setProperty("--art-o", (0.22 + lean * 0.4 * state.power).toFixed(3));
+  }
+
+  function aim(x, y) {
+    const r = wrap.getBoundingClientRect();
+    let nx = (x - r.left) / r.width;
+    let ny = (y - r.top) / r.height;
+    const inside = nx >= 0 && nx <= 1 && ny >= 0 && ny <= 1;
+    if (!inside) {
+      nx = 0.5 + clamp((nx - 0.5) * 0.5, -0.5, 0.5);
+      ny = 0.5 + clamp((ny - 0.5) * 0.5, -0.5, 0.5);
+    }
+    goal.nx = nx;
+    goal.ny = ny;
+    goal.power = 1;
+    lastInput = performance.now();
+  }
+
+  /* ---------- falling feathers and pencil sparkles ---------- */
+  const sky = $("sky"), sg = sky.getContext("2d");
+  const fx = $("fx"), fg = fx.getContext("2d");
+  const PENCIL = token("--pencil");
+  let W = 0, H = 0, feathers = [], puffs = [], stars = [];
+
+  // far, middle and near feathers: smaller ones are fainter and slower, so the fall has depth
+  const LAYERS = [
+    { share: 0.45, len: [16, 26], alpha: [0.32, 0.46], fall: [9, 16], sway: [8, 20], wind: 0.35 },
+    { share: 0.35, len: [32, 50], alpha: [0.55, 0.72], fall: [15, 25], sway: [16, 34], wind: 0.65 },
+    { share: 0.2, len: [60, 96], alpha: [0.8, 0.95], fall: [22, 36], sway: [24, 50], wind: 1 }
+  ];
+
+  function feather(layer, anywhere) {
+    const len = rand(layer.len[0], layer.len[1]);
+    return {
+      sprite: SPRITES[(Math.random() * SPRITES.length) | 0],
+      layer,
+      len,
+      x: Math.random() * W,
+      y: anywhere ? rand(-len, H + len) : -len - Math.random() * 140,
+      alpha: rand(layer.alpha[0], layer.alpha[1]),
+      fall: rand(layer.fall[0], layer.fall[1]),
+      swayA: rand(layer.sway[0], layer.sway[1]),
+      swayW: rand(0.45, 1.05),
+      phase: Math.random() * 6.283,
+      rot: Math.random() * 6.283,
+      rotA: rand(0.25, 0.6),
+      spin: rand(-0.1, 0.1),
+      rv: 0,
+      tumble: Math.random() * 6.283,
+      tumbleW: rand(0.2, 0.65),
+      vx: 0,
+      vy: 0
+    };
+  }
+
+  function populate() {
+    if (!SPRITES.length) return;
+    const target = clamp(Math.round((W * H) / 42000), 12, 32);
+    const next = [];
+    for (const layer of LAYERS) {
+      const want = Math.max(1, Math.round(target * layer.share));
+      const have = feathers.filter((f) => f.layer === layer);
+      while (have.length < want) have.push(feather(layer, true));
+      next.push(...have.slice(0, want));
+    }
+    feathers = next;
+    const starCount = clamp(Math.round((W * H) / 120000), 4, 9);
+    while (stars.length < starCount) {
+      stars.push({ x: Math.random(), y: Math.random(), s: rand(4, 9), ph: Math.random() * 6.283, w: rand(0.5, 1.2) });
+    }
+    stars.length = starCount;
+  }
+
+  function step(f, dt) {
+    const damp = Math.pow(0.18, dt);
+    f.vx = clamp(f.vx * damp, -420, 420);
+    f.vy = clamp(f.vy * damp, -420, 420);
+    f.rv *= damp;
+    f.phase += f.swayW * dt;
+    f.tumble += f.tumbleW * dt;
+    f.rot += (f.spin + f.rv) * dt;
+    f.x += f.vx * dt;
+    f.y += (f.fall + f.vy) * dt;
+  }
+
+  function paint(g, f, fade) {
+    const s = Math.sin(f.phase);
+    const c = Math.cos(f.phase);
+    const x = f.x + s * f.swayA;
+    const y = f.y - (1 - Math.abs(c)) * f.swayA * 0.15;   // a small lift at the end of each swing
+    let turn = Math.cos(f.tumble);                         // turning over as it falls
+    turn = (turn < 0 ? -1 : 1) * (0.35 + 0.65 * Math.abs(turn));
+    const k = f.len / SPRITE_LEN;
+    g.save();
+    g.globalAlpha = f.alpha * fade;
+    g.translate(x, y);
+    g.rotate(f.rot + c * f.rotA);
+    g.scale(turn * k, k);
+    g.drawImage(f.sprite, -f.sprite.width / 2, -f.sprite.height / 2);
+    g.restore();
+  }
+
+  function sparkle(g, x, y, r) {
+    g.beginPath();
+    g.moveTo(x, y - r);
+    g.quadraticCurveTo(x, y, x + r, y);
+    g.quadraticCurveTo(x, y, x, y + r);
+    g.quadraticCurveTo(x, y, x - r, y);
+    g.quadraticCurveTo(x, y, x, y - r);
+    g.closePath();
+  }
+
+  function drawSky(t, dt) {
+    sg.clearRect(0, 0, W, H);
+    sg.strokeStyle = PENCIL;
+    sg.lineWidth = 1;
+    for (const st of stars) {
+      const k = 0.5 + 0.5 * Math.sin(t * 0.001 * st.w + st.ph);
+      sg.globalAlpha = 0.18 + 0.6 * k * k;
+      sparkle(sg, st.x * W, st.y * H, st.s * (0.75 + 0.25 * k));
+      sg.stroke();
+    }
+    sg.globalAlpha = 1;
+    for (const f of feathers) {
+      if (dt) step(f, dt);
+      if (f.y - f.len > H + 30 || f.x < -260 || f.x > W + 260) Object.assign(f, feather(f.layer, false));
+      paint(sg, f, 1);
+    }
+  }
+
+  // moving the cursor or a finger stirs the air
+  const air = { x: 0, y: 0, t: 0 };
+  function blow(x, y) {
+    const now = performance.now();
+    if (air.t && now - air.t < 120) {
+      const dt = Math.max(8, now - air.t) / 1000;
+      const wx = clamp((x - air.x) / dt, -1600, 1600);
+      const wy = clamp((y - air.y) / dt, -1600, 1600);
+      for (const f of feathers) {
+        const dx = f.x + Math.sin(f.phase) * f.swayA - x;
+        const dy = f.y - y;
+        const R = 70 + f.len * 1.4;
+        const d2 = dx * dx + dy * dy;
+        if (d2 > R * R) continue;
+        const near = (1 - Math.sqrt(d2) / R) * f.layer.wind;
+        f.vx += wx * 0.07 * near;
+        f.vy += wy * 0.07 * near;
+        f.rv += (wx * dy - wy * dx) * 0.00002 * near;
+      }
+    }
+    air.x = x;
+    air.y = y;
+    air.t = now;
+  }
+
+  // flipping the card shakes a few feathers loose in front of everything
+  function puff() {
+    if (reduce || !SPRITES.length) return;
+    const r = wrap.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    for (let i = 0; i < 9; i++) {
+      const a = (i / 9) * 6.283 + Math.random() * 0.5;
+      const sp = rand(170, 330);
+      const f = feather(LAYERS[1], true);
+      Object.assign(f, {
+        len: rand(24, 40),
+        alpha: rand(0.85, 1),
+        swayA: rand(8, 20),
+        x: cx + Math.cos(a) * r.width * 0.3,
+        y: cy + Math.sin(a) * r.height * 0.3,
+        vx: Math.cos(a) * sp,
+        vy: Math.sin(a) * sp - 60,
+        rv: rand(-3, 3),
+        age: 0,
+        life: rand(3.4, 4.8)
+      });
+      puffs.push(f);
+    }
+  }
+
+  function drawPuffs(dt) {
+    fg.clearRect(0, 0, W, H);
+    puffs = puffs.filter((f) => (f.age += dt) < f.life);
+    for (const f of puffs) {
+      step(f, dt);
+      paint(fg, f, Math.min(1, (f.life - f.age) / 1.4));
+    }
+  }
+
+  function resize() {
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    for (const [c, g] of [[sky, sg], [fx, fg]]) {
+      c.width = Math.round(W * dpr);
+      c.height = Math.round(H * dpr);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      g.imageSmoothingQuality = "high";
+    }
+    populate();
+    if (reduce) drawSky(0, 0);
+  }
+  let resizeQueued = false;
+  window.addEventListener("resize", () => {
+    if (resizeQueued) return;
+    resizeQueued = true;
+    requestAnimationFrame(() => { resizeQueued = false; resize(); });
+  });
+  resize();
+
+  /* ---------- pencil scenery that carries the banner's drawing down the page ---------- */
+  const scene = $("scene"), cg = scene.getContext("2d");
+  const SK = {
+    line: token("--sketch-line"),
+    soft: token("--sketch-soft"),
+    fill: token("--sketch-fill"),
+    petal: token("--sketch-petal")
+  };
+  const seeded = (seed) => {
+    let s = seed >>> 0;
+    return () => {
+      s = (s + 0x6d2b79f5) >>> 0;
+      let t = s;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  };
+
+  // every line is drawn twice, slightly offset, like a quick pencil pass
+  function pencil(g, path, color, width, alpha) {
+    g.strokeStyle = color;
+    g.lineWidth = width;
+    g.globalAlpha = alpha;
+    g.stroke(path);
+    g.save();
+    g.translate(0.6, 0.45);
+    g.globalAlpha = alpha * 0.35;
+    g.stroke(path);
+    g.restore();
+    g.globalAlpha = 1;
+  }
+
+  function limb(g, rnd, pts, w0, w1) {
+    const n = pts.length;
+    const L = [], Rt = [];
+    for (let i = 0; i < n; i++) {
+      const [x, y] = pts[i];
+      const [xa, ya] = pts[Math.max(0, i - 1)];
+      const [xb, yb] = pts[Math.min(n - 1, i + 1)];
+      const d = Math.hypot(xb - xa, yb - ya) || 1;
+      const nx = -(yb - ya) / d, ny = (xb - xa) / d;
+      const w = ((w0 + (w1 - w0) * (i / (n - 1))) * (0.85 + rnd() * 0.3)) / 2;
+      L.push([x + nx * w, y + ny * w]);
+      Rt.push([x - nx * w, y - ny * w]);
+    }
+    const body = new Path2D();
+    body.moveTo(L[0][0], L[0][1]);
+    for (const [x, y] of L) body.lineTo(x, y);
+    for (let i = n - 1; i >= 0; i--) body.lineTo(Rt[i][0], Rt[i][1]);
+    body.closePath();
+    g.fillStyle = SK.fill;
+    g.fill(body);
+    const edge = new Path2D();
+    edge.moveTo(L[0][0], L[0][1]);
+    for (const [x, y] of L) edge.lineTo(x, y);
+    for (let i = n - 1; i >= 0; i--) edge.lineTo(Rt[i][0], Rt[i][1]);
+    pencil(g, edge, SK.line, 1, 0.8);
+    const marks = new Path2D();
+    for (let i = 2; i < n - 2; i += 3 + Math.floor(rnd() * 3)) {
+      if (rnd() < 0.5) continue;
+      const [x, y] = pts[i];
+      const [x2, y2] = pts[i + 1];
+      marks.moveTo(x, y);
+      marks.lineTo(x + (x2 - x) * 1.4, y + (y2 - y) * 1.4);
+    }
+    pencil(g, marks, SK.soft, 0.8, 0.8);
+  }
+
+  function branch(g, rnd, x, y, ang, len, w, depth, blooms) {
+    const steps = Math.max(5, Math.round(len / 7));
+    const bend = (rnd() - 0.5) * 0.08;
+    const pts = [[x, y]];
+    let a = ang;
+    for (let i = 1; i <= steps; i++) {
+      a += bend + (rnd() - 0.5) * 0.14;
+      x += (Math.cos(a) * len) / steps;
+      y += (Math.sin(a) * len) / steps;
+      pts.push([x, y]);
+    }
+    limb(g, rnd, pts, w, Math.max(0.9, w * 0.22));
+    if (depth < 2 && len > 36) {
+      const kids = depth === 0 ? 2 + Math.floor(rnd() * 3) : Math.floor(rnd() * 3);
+      for (let k = 0; k < kids; k++) {
+        const i = Math.floor(steps * (0.25 + rnd() * 0.6));
+        const [px, py] = pts[i];
+        const [qx, qy] = pts[i + 1];
+        const side = rnd() < 0.5 ? -1 : 1;
+        branch(g, rnd, px, py, Math.atan2(qy - py, qx - px) + side * (0.45 + rnd() * 0.6),
+          len * (0.3 + rnd() * 0.3), Math.max(1, w * (1 - i / steps) * 0.65), depth + 1, blooms);
+      }
+    }
+    blooms.push({ x, y, tip: true });
+    for (let k = Math.floor(rnd() * 3); k > 0; k--) {
+      const i = Math.floor(steps * (0.3 + rnd() * 0.6));
+      blooms.push({ x: pts[i][0], y: pts[i][1], tip: false });
+    }
+  }
+
+  function petalPath(r) {
+    const p = new Path2D();
+    p.moveTo(0, 0);
+    p.bezierCurveTo(-0.55 * r, -0.25 * r, -0.62 * r, -0.85 * r, -0.2 * r, -r);
+    p.lineTo(0, -0.84 * r);
+    p.lineTo(0.2 * r, -r);
+    p.bezierCurveTo(0.62 * r, -0.85 * r, 0.55 * r, -0.25 * r, 0, 0);
+    p.closePath();
+    return p;
+  }
+
+  function blossom(g, rnd, x, y, r) {
+    g.save();
+    g.translate(x, y);
+    g.rotate(rnd() * 6.283);
+    g.scale(1, 0.72 + rnd() * 0.28);
+    const petals = rnd() < 0.15 ? 4 : 5;
+    const p = petalPath(r);
+    for (let k = 0; k < petals; k++) {
+      g.save();
+      g.rotate((k / 5) * 6.283 + (rnd() - 0.5) * 0.2);
+      g.fillStyle = SK.petal;
+      g.fill(p);
+      pencil(g, p, SK.line, 0.9, 0.75);
+      const vein = new Path2D();
+      vein.moveTo(0, -0.15 * r);
+      vein.lineTo((rnd() - 0.5) * 0.1 * r, -0.6 * r);
+      pencil(g, vein, SK.soft, 0.7, 0.7);
+      g.restore();
+    }
+    g.fillStyle = SK.line;
+    for (let k = 0; k < 8; k++) {
+      const a = (k / 8) * 6.283 + rnd() * 0.3;
+      const l = r * (0.32 + rnd() * 0.16);
+      const st = new Path2D();
+      st.moveTo(0, 0);
+      st.lineTo(Math.cos(a) * l, Math.sin(a) * l);
+      pencil(g, st, SK.line, 0.6, 0.55);
+      g.globalAlpha = 0.6;
+      g.beginPath();
+      g.arc(Math.cos(a) * l, Math.sin(a) * l, 0.9, 0, 6.283);
+      g.fill();
+      g.globalAlpha = 1;
+    }
+    g.restore();
+  }
+
+  function bud(g, rnd, x, y, r, ang) {
+    g.save();
+    g.translate(x, y);
+    g.rotate(ang);
+    const p = new Path2D();
+    p.ellipse(0, -r * 0.6, r * 0.38, r * 0.6, 0, 0, 6.283);
+    g.fillStyle = SK.petal;
+    g.fill(p);
+    pencil(g, p, SK.line, 0.9, 0.75);
+    const cup = new Path2D();
+    cup.moveTo(-r * 0.32, -r * 0.18);
+    cup.quadraticCurveTo(0, r * 0.25, r * 0.32, -r * 0.18);
+    cup.moveTo(0, r * 0.05);
+    cup.lineTo((rnd() - 0.5) * r * 0.3, r * 0.55);
+    pencil(g, cup, SK.line, 0.9, 0.6);
+    g.restore();
+  }
+
+  function leaf(g, x, y, l, ang) {
+    g.save();
+    g.translate(x, y);
+    g.rotate(ang);
+    const p = new Path2D();
+    p.moveTo(0, 0);
+    p.quadraticCurveTo(l * 0.45, -l * 0.32, l, 0);
+    p.quadraticCurveTo(l * 0.45, l * 0.32, 0, 0);
+    g.fillStyle = SK.fill;
+    g.fill(p);
+    pencil(g, p, SK.line, 0.9, 0.7);
+    const rib = new Path2D();
+    rib.moveTo(0, 0);
+    rib.lineTo(l * 0.85, 0);
+    pencil(g, rib, SK.soft, 0.7, 0.8);
+    g.restore();
+  }
+
+  function loosePetal(g, x, y, r, ang) {
+    g.save();
+    g.translate(x, y);
+    g.rotate(ang);
+    g.scale(0.78, 1.05);
+    const p = petalPath(r);
+    g.fillStyle = SK.petal;
+    g.fill(p);
+    pencil(g, p, SK.line, 0.85, 0.6);
+    g.restore();
+  }
+
+  function sparkleAt(g, x, y, r) {
+    sparkle(g, x, y, r);
+    g.strokeStyle = SK.line;
+    g.lineWidth = 0.9;
+    g.globalAlpha = 0.75;
+    g.stroke();
+    g.globalAlpha = 1;
+  }
+
+  function butterfly(g, x, y, s, ang) {
+    g.save();
+    g.translate(x, y);
+    g.rotate(ang);
+    for (const side of [-1, 1]) {
+      g.save();
+      g.scale(side, 1);
+      const up = new Path2D();
+      up.moveTo(0, -s * 0.1);
+      up.bezierCurveTo(s * 0.5, -s * 1.1, s * 1.25, -s * 0.85, s * 0.95, -s * 0.15);
+      up.bezierCurveTo(s * 0.8, s * 0.1, s * 0.3, s * 0.05, 0, 0);
+      const lo = new Path2D();
+      lo.moveTo(0, s * 0.05);
+      lo.bezierCurveTo(s * 0.55, s * 0.05, s * 0.85, s * 0.4, s * 0.6, s * 0.75);
+      lo.bezierCurveTo(s * 0.4, s * 0.95, s * 0.1, s * 0.6, 0, s * 0.2);
+      for (const p of [up, lo]) {
+        g.fillStyle = SK.petal;
+        g.fill(p);
+        pencil(g, p, SK.line, 0.9, 0.75);
+      }
+      const veins = new Path2D();
+      veins.moveTo(0, -s * 0.05);
+      veins.lineTo(s * 0.7, -s * 0.6);
+      veins.moveTo(0, -s * 0.02);
+      veins.lineTo(s * 0.85, -s * 0.25);
+      veins.moveTo(0, s * 0.1);
+      veins.lineTo(s * 0.5, s * 0.55);
+      pencil(g, veins, SK.soft, 0.6, 0.8);
+      g.restore();
+    }
+    const body = new Path2D();
+    body.ellipse(0, s * 0.1, s * 0.07, s * 0.45, 0, 0, 6.283);
+    g.fillStyle = SK.fill;
+    g.fill(body);
+    pencil(g, body, SK.line, 0.9, 0.8);
+    const feelers = new Path2D();
+    feelers.moveTo(0, -s * 0.3);
+    feelers.quadraticCurveTo(-s * 0.1, -s * 0.6, -s * 0.25, -s * 0.7);
+    feelers.moveTo(0, -s * 0.3);
+    feelers.quadraticCurveTo(s * 0.1, -s * 0.6, s * 0.25, -s * 0.7);
+    pencil(g, feelers, SK.line, 0.7, 0.7);
+    g.restore();
+  }
+
+  let sceneKey = "";
+  function drawScenery(force) {
+    const Wd = document.documentElement.clientWidth;
+    scene.style.height = "0px";
+    const Hd = Math.max(document.documentElement.scrollHeight, window.innerHeight);
+    scene.style.width = Wd + "px";
+    scene.style.height = Hd + "px";
+    const key = Wd + "x" + Math.round(Hd / 40);
+    if (!force && key === sceneKey) return;
+    sceneKey = key;
+    const dpr = Math.min(2, window.devicePixelRatio || 1, Math.sqrt(9e6 / (Wd * Hd)));
+    scene.width = Math.round(Wd * dpr);
+    scene.height = Math.round(Hd * dpr);
+    const g = cg;
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, Wd, Hd);
+    g.lineCap = "round";
+    g.lineJoin = "round";
+
+    const rnd = seeded(1021);
+    const wide = Wd >= 860;
+    const bannerB = $("banner").offsetHeight;
+    const sx = window.scrollX, sy = window.scrollY;
+    const box = (el) => {
+      const r = el.getBoundingClientRect();
+      return { l: r.left + sx, t: r.top + sy, r: r.right + sx, b: r.bottom + sy };
+    };
+    const rects = [wrap, $("flipBtn").parentElement, ...document.querySelectorAll(".now:not([hidden]), .eyebrow, .link")].map(box);
+    const isFree = (x, y, pad) => rects.every((q) => x < q.l - pad || x > q.r + pad || y < q.t - pad || y > q.b + pad);
+    const cardBox = box(wrap);
+    const linksBox = box($("links"));
+    const room = { left: cardBox.l, right: Wd - (wide ? linksBox.r : cardBox.r) };
+
+    // blossom branches growing in from both edges, carrying on from the banner's
+    const blooms = [];
+    const per = wide ? 3 : 4;
+    for (const side of [-1, 1]) {
+      const space = side < 0 ? room.left : room.right;
+      for (let i = 0; i < per; i++) {
+        const y0 = bannerB * 0.68 + (Hd - bannerB * 0.68) * ((i + 0.1 + rnd() * 0.6) / per);
+        const tilt = (rnd() - 0.4) * 1.0;
+        const ang = side < 0 ? tilt : Math.PI - tilt;
+        const len = wide ? clamp(space * 1.05, 150, 420) * (0.7 + rnd() * 0.5) : 50 + rnd() * 60;
+        branch(g, rnd, side < 0 ? -6 : Wd + 6, y0, ang, len, wide ? 7 : 4.5, 0, blooms);
+      }
+    }
+    const base = wide ? 9 : 6.5;
+    for (const b of blooms) {
+      if (b.tip) {
+        const n = 1 + Math.floor(rnd() * 3);
+        for (let k = 0; k < n; k++) {
+          const a = rnd() * 6.283;
+          const d = k ? base * (1 + rnd()) : 0;
+          blossom(g, rnd, b.x + Math.cos(a) * d, b.y + Math.sin(a) * d, base * (0.85 + rnd() * 0.5));
+        }
+        if (rnd() < 0.6) bud(g, rnd, b.x + (rnd() - 0.5) * base * 3, b.y + (rnd() - 0.5) * base * 3, base, rnd() * 6.283);
+        if (rnd() < 0.45) leaf(g, b.x, b.y, base * 1.9, rnd() * 6.283);
+      } else if (rnd() < 0.6) {
+        blossom(g, rnd, b.x, b.y, base * (0.7 + rnd() * 0.4));
+      } else {
+        bud(g, rnd, b.x, b.y, base * 0.85, rnd() * 6.283);
+      }
+    }
+
+    // loose petals, sparkles and a butterfly or two, only where nothing covers them
+    const top = bannerB * 0.7;
+    const scatter = (count, pad, draw) => {
+      for (let k = 0, placed = 0; k < count * 10 && placed < count; k++) {
+        const x = rnd() * Wd;
+        const y = top + rnd() * (Hd - top);
+        if (!isFree(x, y, pad)) continue;
+        draw(x, y);
+        placed++;
+      }
+    };
+    scatter(Math.round((Wd * Hd) / (wide ? 24000 : 16000)), 4,
+      (x, y) => loosePetal(g, x, y, (wide ? 7 : 5.5) + rnd() * 4.5, rnd() * 6.283));
+    scatter(Math.round((Wd * Hd) / 36000), 3, (x, y) => {
+      sparkleAt(g, x, y, 3.5 + rnd() * 7);
+      if (rnd() < 0.35) sparkleAt(g, x + 9 + rnd() * 6, y - 7 - rnd() * 6, 2.2 + rnd() * 2);
+    });
+    scatter(wide ? 2 : 1, wide ? 34 : 24,
+      (x, y) => butterfly(g, x, y, wide ? 18 + rnd() * 6 : 12, (rnd() - 0.5) * 0.9));
+  }
+
+  try {
+    drawScenery(true);
+    if (document.fonts) document.fonts.ready.then(() => drawScenery(true));
+    let sceneTimer = 0;
+    window.addEventListener("resize", () => {
+      clearTimeout(sceneTimer);
+      sceneTimer = setTimeout(() => drawScenery(false), 180);
+    });
+  } catch (e) { /* the page still works on plain paper */ }
+
+  /* ---------- input ---------- */
+  card.addEventListener("pointerdown", (e) => {
+    pressed = true;
+    dragged = false;
+    downX = e.clientX;
+    downY = e.clientY;
+    if (!reduce) aim(e.clientX, e.clientY);
+  });
+  window.addEventListener("pointermove", (e) => {
+    if (pressed && Math.hypot(e.clientX - downX, e.clientY - downY) > 10) dragged = true;
+    if (reduce) return;
+    blow(e.clientX, e.clientY);
+    if (e.pointerType === "mouse" || pressed) aim(e.clientX, e.clientY);
+  }, { passive: true });
+  const release = () => { pressed = false; lastInput = performance.now(); air.t = 0; };
+  window.addEventListener("pointerup", release);
+  window.addEventListener("pointercancel", release);
+  document.addEventListener("pointerout", (e) => {
+    if (!e.relatedTarget && e.pointerType === "mouse") { lastInput = -Infinity; air.t = 0; }
+  });
+
+  /* ---------- flip ---------- */
+  const flipBtn = $("flipBtn");
+  function flip() {
+    const on = !card.classList.contains("is-flipped");
+    card.classList.toggle("is-flipped", on);
+    flipBtn.setAttribute("aria-pressed", String(on));
+    puff();
+  }
+  card.addEventListener("click", () => {
+    if (dragged) { dragged = false; return; }
+    flip();
+  });
+  flipBtn.addEventListener("click", flip);
+
+  /* ---------- music ----------
+     Browsers only allow sound after a tap, so the page opens behind a "tap to enter" veil.
+     With no song file set, it plays an original music-box loop that is built right here in the browser:
+     a IV–V–iii–vi progression with a broken-chord music box, a soft pad, and a bell melody every other round. */
+  const Music = (() => {
+    let ctx = null, bus = null, padBus = null, master = null;
+    let timer = 0, nextTime = 0, bar = 0, el = null, on = false;
+    const BEAT = 60 / 76;
+    const mtof = (m) => 440 * Math.pow(2, (m - 69) / 12);
+
+    // each bar: chords as [beats, broken chord in eighths, pad voicing, bass note] (MIDI numbers)
+    const BARS = [
+      [[4, [53, 60, 64, 69, 72, 69, 64, 60], [53, 57, 60, 64], 41]],   // Fmaj7
+      [[4, [55, 62, 64, 71, 74, 71, 64, 62], [55, 59, 62, 64], 43]],   // G6
+      [[4, [52, 59, 62, 67, 71, 67, 62, 59], [52, 55, 59, 62], 40]],   // Em7
+      [[4, [57, 64, 67, 72, 76, 72, 67, 64], [57, 60, 64, 67], 45]],   // Am7
+      [[4, [53, 60, 67, 69, 76, 69, 67, 60], [53, 57, 60, 67], 41]],   // Fmaj9
+      [[4, [55, 62, 67, 71, 74, 71, 67, 62], [55, 59, 62, 67], 43]],   // G
+      [[2, [52, 59, 62, 67], [52, 55, 59, 62], 40], [2, [57, 64, 67, 73], [57, 61, 64, 67], 45]],   // Em7, A7
+      [[2, [50, 57, 60, 65], [50, 53, 57, 60], 38], [2, [55, 62, 65, 72], [55, 60, 62, 65], 43]]    // Dm7, G7sus4
+    ];
+    // melody for the second round: [beat, note, length in beats]
+    const MELODY = [
+      [[0, 81, 1], [1, 79, 1], [2, 76, 1], [3, 72, 1]],
+      [[0, 74, 3], [3, 76, 1]],
+      [[0, 79, 1], [1, 76, 1], [2, 74, 1], [3, 71, 1]],
+      [[0, 72, 3]],
+      [[0, 81, 1], [1, 79, 1], [2, 76, 1], [3, 79, 1]],
+      [[0, 86, 2], [2, 83, 1], [3, 79, 1]],
+      [[0, 83, 1], [1, 79, 1], [2, 85, 1], [3, 81, 1]],
+      [[0, 81, 1], [1, 77, 1], [2, 79, 2]]
+    ];
+
+    function impulse(seconds, decay) {
+      const rate = ctx.sampleRate;
+      const len = Math.floor(rate * seconds);
+      const buf = ctx.createBuffer(2, len, rate);
+      for (let ch = 0; ch < 2; ch++) {
+        const d = buf.getChannelData(ch);
+        for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay);
+      }
+      return buf;
+    }
+
+    function build() {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      ctx = new AC();
+      master = ctx.createGain();
+      master.gain.value = 0;
+      const limiter = ctx.createDynamicsCompressor();
+      limiter.threshold.value = -14;
+      limiter.ratio.value = 4;
+      master.connect(limiter);
+      limiter.connect(ctx.destination);
+      const tone = ctx.createBiquadFilter();
+      tone.type = "lowpass";
+      tone.frequency.value = 7000;
+      const dry = ctx.createGain();
+      dry.gain.value = 0.85;
+      const wet = ctx.createGain();
+      wet.gain.value = 0.4;
+      const verb = ctx.createConvolver();
+      verb.buffer = impulse(3.2, 2.6);
+      tone.connect(dry);
+      dry.connect(master);
+      tone.connect(verb);
+      verb.connect(wet);
+      wet.connect(master);
+      bus = ctx.createGain();
+      bus.connect(tone);
+      padBus = ctx.createGain();
+      padBus.gain.value = 0.9;
+      padBus.connect(tone);
+    }
+
+    // a small FM bell: the music box and the melody both use it
+    function bell(t, midi, vel, dur, ratio, index) {
+      const f = mtof(midi);
+      const car = ctx.createOscillator();
+      car.frequency.value = f;
+      const mod = ctx.createOscillator();
+      mod.frequency.value = f * ratio;
+      const depth = ctx.createGain();
+      depth.gain.setValueAtTime(f * index, t);
+      depth.gain.exponentialRampToValueAtTime(Math.max(0.01, f * index * 0.02), t + Math.min(dur, 0.9));
+      mod.connect(depth);
+      depth.connect(car.frequency);
+      const amp = ctx.createGain();
+      amp.gain.setValueAtTime(0.0001, t);
+      amp.gain.exponentialRampToValueAtTime(vel, t + 0.006);
+      amp.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      car.connect(amp);
+      if (ctx.createStereoPanner) {
+        const pan = ctx.createStereoPanner();
+        pan.pan.value = (Math.random() - 0.5) * 0.5;
+        amp.connect(pan);
+        pan.connect(bus);
+      } else {
+        amp.connect(bus);
+      }
+      car.start(t);
+      mod.start(t);
+      car.stop(t + dur + 0.1);
+      mod.stop(t + dur + 0.1);
+    }
+
+    function padNote(t, midi, dur) {
+      const amp = ctx.createGain();
+      amp.gain.setValueAtTime(0.0001, t);
+      amp.gain.linearRampToValueAtTime(0.03, t + 0.7);
+      amp.gain.setValueAtTime(0.03, t + Math.max(0.7, dur - 0.2));
+      amp.gain.linearRampToValueAtTime(0.0001, t + dur + 1);
+      const lp = ctx.createBiquadFilter();
+      lp.type = "lowpass";
+      lp.frequency.value = 1100;
+      lp.connect(amp);
+      amp.connect(padBus);
+      for (const cents of [-6, 6]) {
+        const o = ctx.createOscillator();
+        o.type = "triangle";
+        o.frequency.value = mtof(midi);
+        o.detune.value = cents;
+        o.connect(lp);
+        o.start(t);
+        o.stop(t + dur + 1.1);
+      }
+    }
+
+    function bassNote(t, midi, dur) {
+      const o = ctx.createOscillator();
+      o.frequency.value = mtof(midi);
+      const amp = ctx.createGain();
+      amp.gain.setValueAtTime(0.0001, t);
+      amp.gain.exponentialRampToValueAtTime(0.15, t + 0.03);
+      amp.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.4);
+      o.connect(amp);
+      amp.connect(bus);
+      o.start(t);
+      o.stop(t + dur + 0.5);
+    }
+
+    function scheduleBar(i, t0) {
+      const chords = BARS[i % 8];
+      let beat = 0;
+      for (const [beats, broken, voicing, root] of chords) {
+        const t = t0 + beat * BEAT;
+        for (const m of voicing) padNote(t, m, beats * BEAT);
+        bassNote(t, root, beats * BEAT);
+        for (let k = 0; k < beats * 2; k++) {
+          bell(t + (k * BEAT) / 2, broken[k % broken.length], k % 2 ? 0.12 : 0.155, 1.7, 2, 0.35);
+        }
+        beat += beats;
+      }
+      if (Math.floor(i / 8) % 2 === 1) {
+        for (const [b, m, len] of MELODY[i % 8]) bell(t0 + b * BEAT, m, 0.24, len * BEAT + 1.4, 3.5, 0.8);
+      }
+      if (Math.random() < 0.35) {
+        const broken = chords[0][1];
+        const m = Math.min(96, broken[(Math.random() * broken.length) | 0] + 24);
+        bell(t0 + ((Math.random() * 8) | 0) * (BEAT / 2), m, 0.07, 2.6, 3.5, 0.5);
+      }
+    }
+
+    function pump() {
+      while (nextTime < ctx.currentTime + 0.5) {
+        scheduleBar(bar, nextTime);
+        nextTime += 4 * BEAT;
+        bar++;
+      }
+    }
+
+    // the song file, when one is set; if it cannot load here, the music box plays instead
+    let songOk = Boolean(PROFILE.song);
+    let fadeRaf = 0;
+    function dropSong() {
+      songOk = false;
+      $("nowPlaying").dataset.off = "1";
+      $("nowPlaying").hidden = true;
+    }
+    if (songOk) {
+      el = new Audio();
+      el.preload = "auto";
+      el.loop = true;
+      el.src = PROFILE.song;
+      el.addEventListener("error", () => {
+        dropSong();
+        if (on) {
+          on = false;
+          playSynth();
+          syncSong();
+        }
+      });
+    }
+    function fadeTo(target, ms, done) {
+      cancelAnimationFrame(fadeRaf);
+      const from = el.volume;
+      const t0 = performance.now();
+      const stepFade = (t) => {
+        const k = Math.min(1, (t - t0) / ms);
+        try { el.volume = from + (target - from) * k; } catch (e) { /* some phones keep the volume fixed */ }
+        if (k < 1) fadeRaf = requestAnimationFrame(stepFade);
+        else if (done) done();
+      };
+      fadeRaf = requestAnimationFrame(stepFade);
+    }
+
+    function play() {
+      if (songOk) {
+        try { el.volume = 0; } catch (e) { /* some phones keep the volume fixed */ }
+        on = true;
+        const started = Promise.resolve(el.play());
+        fadeTo(0.85, 1600);
+        return started.catch((err) => {
+          if (err && err.name === "NotAllowedError") {
+            on = false;
+            throw err;
+          }
+          dropSong();
+          return playSynth();
+        });
+      }
+      return playSynth();
+    }
+
+    function pause() {
+      if (songOk) {
+        on = false;
+        if (document.hidden) {
+          cancelAnimationFrame(fadeRaf);
+          el.pause();
+        } else {
+          fadeTo(0, 350, () => { if (!on) el.pause(); });
+        }
+        return;
+      }
+      pauseSynth();
+    }
+
+    function playSynth() {
+      try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) { /* older browsers */ }
+      if (!ctx) build();
+      const resumed = ctx.resume();
+      const now = ctx.currentTime;
+      if (nextTime < now + 0.05) nextTime = now + 0.12;
+      master.gain.cancelScheduledValues(now);
+      master.gain.setValueAtTime(master.gain.value, now);
+      master.gain.linearRampToValueAtTime(0.8, now + 2.4);
+      pump();
+      clearInterval(timer);
+      timer = setInterval(pump, 200);
+      on = true;
+      return resumed;
+    }
+
+    function pauseSynth() {
+      on = false;
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      master.gain.cancelScheduledValues(now);
+      master.gain.setValueAtTime(master.gain.value, now);
+      master.gain.linearRampToValueAtTime(0, now + 0.5);
+      clearInterval(timer);
+      timer = 0;
+      setTimeout(() => { if (!on && ctx) ctx.suspend(); }, 600);
+    }
+
+    return { play, pause, isOn: () => on };
+  })();
+
+  const enter = $("enter");
+  const songBtn = $("songBtn");
+  const songLabel = songBtn.querySelector("span");
+  $("enterName").textContent = name;
+  if (PROFILE.song && PROFILE.songTitle && !$("nowPlaying").dataset.off) {
+    const now = $("nowPlaying");
+    now.textContent = "♪ " + PROFILE.songTitle + (PROFILE.songArtist ? " · " + PROFILE.songArtist : "");
+    now.hidden = false;
+  }
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches) $("enterHint").textContent = "Click to enter";
+
+  function syncSong() {
+    songLabel.textContent = Music.isOn() ? "Pause music" : "Play music";
+    songBtn.setAttribute("aria-pressed", String(Music.isOn()));
+  }
+  function startMusic() {
+    let started;
+    try {
+      started = Promise.resolve(Music.play());
+    } catch (err) {
+      started = Promise.reject(err);
+    }
+    syncSong();
+    started.then(syncSong, () => {
+      Music.pause();
+      syncSong();
+      showToast(["The music could not start here. Tap Play music to try again."]);
+    });
+  }
+  enter.addEventListener("click", () => {
+    startMusic();
+    enter.classList.add("is-gone");
+    songBtn.hidden = false;
+    setTimeout(puff, 260);
+  });
+  songBtn.addEventListener("click", () => {
+    if (Music.isOn()) {
+      Music.pause();
+      syncSong();
+    } else {
+      startMusic();
+    }
+  });
+  let resumeOnShow = false;
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      resumeOnShow = Music.isOn();
+      if (resumeOnShow) { Music.pause(); syncSong(); }
+    } else if (resumeOnShow) {
+      resumeOnShow = false;
+      startMusic();
+    }
+  });
+
+  /* ---------- bio typewriter (first line is already showing) ---------- */
+  if (!reduce && bioLines.length) {
+    const bioEl = $("bioText");
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    (async () => {
+      let i = 0;
+      for (;;) {
+        await wait(3400);
+        let chars = Array.from(bioLines[i]);
+        for (let n = chars.length - 1; n >= 0; n--) {
+          bioEl.textContent = chars.slice(0, n).join("");
+          await wait(16);
+        }
+        i = (i + 1) % bioLines.length;
+        chars = Array.from(bioLines[i]);
+        await wait(280);
+        for (let n = 1; n <= chars.length; n++) {
+          bioEl.textContent = chars.slice(0, n).join("");
+          await wait(32 + Math.random() * 42);
+        }
+      }
+    })();
+  }
+
+  /* ---------- main loop ---------- */
+  apply();
+  if (!reduce) {
+    let raf = 0, prev = 0, puffsDrawn = false;
+    const tick = (t) => {
+      const dt = prev ? Math.min(0.05, (t - prev) / 1000) : 0.016;
+      prev = t;
+      const idle = t - lastInput > 2200 && !pressed;
+      let gx = goal.nx, gy = goal.ny, gp = goal.power;
+      if (idle) {
+        gx = 0.5 + 0.24 * Math.sin(t * 0.00042);
+        gy = 0.5 + 0.18 * Math.sin(t * 0.00067 + 1.2);
+        gp = 0.6;
+      }
+      const k = 1 - Math.exp(-dt * (idle ? 1.6 : 10));
+      state.nx += (gx - state.nx) * k;
+      state.ny += (gy - state.ny) * k;
+      state.power += (gp - state.power) * k;
+      apply();
+      drawSky(t, dt);
+      if (puffs.length) { drawPuffs(dt); puffsDrawn = true; }
+      else if (puffsDrawn) { fg.clearRect(0, 0, W, H); puffsDrawn = false; }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    document.addEventListener("visibilitychange", () => {
+      cancelAnimationFrame(raf);
+      if (!document.hidden) { prev = 0; raf = requestAnimationFrame(tick); }
+    });
+  }
+})();
+</script>
+</body>
+</html>
